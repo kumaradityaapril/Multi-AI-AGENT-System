@@ -15,7 +15,7 @@ class AgentState(TypedDict):
     review: str
 
 def planner_agent(state: AgentState):
-    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("OPENAI_API_KEY"))
+    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
     
     response = llm.invoke([
         HumanMessage(content=f"Understand this goal and summarize: {state['user_input']}")
@@ -24,7 +24,7 @@ def planner_agent(state: AgentState):
     return {"plan": response.content}
 
 def research_agent(state: AgentState):
-    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("OPENAI_API_KEY"))
+    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
     
     response = llm.invoke([
         HumanMessage(content=f"Break this into study topics: {state['plan']}")
@@ -33,7 +33,7 @@ def research_agent(state: AgentState):
     return {"topics": response.content}
 
 def scheduler_agent(state: AgentState):
-    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("OPENAI_API_KEY"))
+    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
     
     response = llm.invoke([
         HumanMessage(content=f"Create a 10-day study plan using: {state['topics']}")
@@ -42,7 +42,7 @@ def scheduler_agent(state: AgentState):
     return {"schedule": response.content}
 
 def reviewer_agent(state: AgentState):
-    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("OPENAI_API_KEY"))
+    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
     
     response = llm.invoke([
         HumanMessage(content=f"Improve this schedule: {state['schedule']}")
